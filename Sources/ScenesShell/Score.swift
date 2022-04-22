@@ -8,6 +8,7 @@ class Score : RenderableEntity {
     //Visuals
     var textCurrentScore = Text(location:Point(x:100,y:100),text: "")
     var textHighScore = Text(location:Point(x:100,y:120),text: "")
+    let scoreBorderRect = Rect(topLeft:Point(x:90, y:75), size:Size(width:250, height:50))
     
     //attributes
     var currentScore = 0
@@ -39,8 +40,15 @@ class Score : RenderableEntity {
     }
     
     override func render(canvas: Canvas) {
-        textCurrentScore.font = "20pt Comic sans"
-        textHighScore.font = "20pt Comic sans"
-        canvas.render(textCurrentScore, textHighScore)
+        let scoreBorderRectangle = Rectangle(rect:scoreBorderRect, fillMode:.fillAndStroke)
+        var strokeStyle = StrokeStyle(color:Color(.red))
+        var fillStyle = FillStyle(color:Color(.lime))
+        textCurrentScore.font = "20pt Comic Sans MS"
+        textHighScore.font = "20pt Comic Sans MS"
+        canvas.render(strokeStyle, fillStyle, scoreBorderRectangle)
+        strokeStyle = StrokeStyle(color:Color(.black))
+        fillStyle = FillStyle(color:Color(.hotpink))
+        canvas.render(strokeStyle, fillStyle, textCurrentScore, textHighScore)
+        fillStyle = FillStyle(color:Color(.black))
     }
 }
