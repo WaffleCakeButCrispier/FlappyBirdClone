@@ -5,7 +5,7 @@ import Foundation
 class MainScene : Scene {
 
     //IMPORTANT SPRITES (contains all sprites needed) 
-    public let spriteLibrary : Image 
+    public let spriteLibraryURL : String = "https://www.thoughtco.com/thmb/Zya6PS3m6XjRAmVo1HONvY9DW_A=/3865x2174/smart/filters:no_upscale()/abstract-paper-flower-pattern-656688606-5acfba2eae9ab80038461ca0.jpg" 
 
     //IMPORTANT LAYER
     let refreshLayer = RefreshLayer()
@@ -50,10 +50,6 @@ class MainScene : Scene {
     }
     
     init() {
-        guard let spriteLibraryUrl = URL(string:"https://www.thoughtco.com/thmb/Zya6PS3m6XjRAmVo1HONvY9DW_A=/3865x2174/smart/filters:no_upscale()/abstract-paper-flower-pattern-656688606-5acfba2eae9ab80038461ca0.jpg") else {
-            fatalError("failed to load sprite library url")
-        }
-        spriteLibrary = Image(sourceURL: spriteLibraryUrl)
         // Using a meaningful name can be helpful for debugging
         super.init(name:"Main")
        
@@ -67,7 +63,7 @@ class MainScene : Scene {
     }
 
     override func preSetup(canvasSize: Size, canvas:Canvas) {
-        canvas.setup(spriteLibrary)
+
         // //wait for sprites to load
         // var loading = true
         // while !spriteLibrary.isReady {

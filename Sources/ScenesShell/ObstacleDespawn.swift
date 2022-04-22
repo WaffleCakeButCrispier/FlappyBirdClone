@@ -43,6 +43,7 @@ class ObstacleDespawn : RenderableEntity {
 
     override func setup(canvasSize: Size, canvas: Canvas) {
         obstacleDespawnRect.size.height = Int.max
+        obstacleDespawnRect.topLeft.x -= obstacleDespawnRect.size.width + 100
     }
 
     override func render(canvas: Canvas) {
