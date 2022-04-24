@@ -12,6 +12,7 @@ class ForegroundLayer : Layer {
     let playScreen = PlayScreen()
     let score = Score()    
 
+    let debug = DebugMenu()
     //return rects
     func returnGroundRect() -> Rect {
         let rect = ground.returnGroundRect()
@@ -34,8 +35,11 @@ class ForegroundLayer : Layer {
           super.init(name:"Foreground")
           
           // We insert our RenderableEntities in the constructor
-          insert(entity: ground, at:.front)
+          insert(entity: ground, at:.back)
           insert(entity: playScreen, at:.front)
           insert(entity: score, at:.front)
+
+          insert(entity: debug, at:.front)
       }
-  }
+}
+

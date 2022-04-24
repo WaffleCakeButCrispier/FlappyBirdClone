@@ -41,7 +41,8 @@ class InteractionLayer : Layer {
             obstacle.offset(x:offsetSpace * (index + 1),y:0)
                         
             //insert obstacles into scene
-            insert(entity:obstacle, at:.front)
+            insert(entity:obstacle, at:.back)
+            obstacle.number = index
         }
     }
     
@@ -51,7 +52,7 @@ class InteractionLayer : Layer {
         
         // We insert our RenderableEntities in the constructor
         insert(entity:bird, at:.front)
-        insert(entity:obstacleDespawn, at:.front)
+        insert(entity:obstacleDespawn, at:.back)
         spawnObstacles()
     }
 }

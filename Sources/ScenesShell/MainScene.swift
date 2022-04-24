@@ -4,9 +4,10 @@ import Foundation
 
 class MainScene : Scene {
 
-    //IMPORTANT SPRITES (contains all sprites needed) 
-    public let spriteLibraryURL : String = "https://www.thoughtco.com/thmb/Zya6PS3m6XjRAmVo1HONvY9DW_A=/3865x2174/smart/filters:no_upscale()/abstract-paper-flower-pattern-656688606-5acfba2eae9ab80038461ca0.jpg" 
-
+    //sprite status
+    
+    public var spriteLibraryReady = false
+    
     //IMPORTANT LAYER
     let refreshLayer = RefreshLayer()
     
@@ -14,14 +15,24 @@ class MainScene : Scene {
     let backgroundLayer = BackgroundLayer()
     let interactionLayer = InteractionLayer()
     let foregroundLayer = ForegroundLayer()
+    let spriteLayer = SpriteLayer()
     
-    public var groundLevel = 850 //ground layer y 
+    public var groundLevel = 800 //ground layer y 
     public var speed : Double = -10.0 //initial speed
 
     public var reset = false //should we reset?
     public var playable = true //is player playable (is bird uncontrollable)?
     public var playing = false //is player playing?
+    public var isDying = false
     
+    //get debug information
+    public var debugInformation : [String] = []
+    
+    //get sprites
+    func returnSpriteLibrary() -> Image? {
+        spriteLayer.returnSpriteLibrary()
+    }
+
     //global scene functions (return thine rectos)
     func returnDespawnRect() -> Rect { 
         let rect : Rect = interactionLayer.returnDespawnRect()
@@ -59,19 +70,11 @@ class MainScene : Scene {
         insert(layer:interactionLayer, at:.front)
         insert(layer:foregroundLayer, at:.front)
         insert(layer:refreshLayer, at:.back)
-
+        insert(layer:spriteLayer, at:.back)
     }
 
-    override func preSetup(canvasSize: Size, canvas:Canvas) {
-
-        // //wait for sprites to load
-        // var loading = true
-        // while !spriteLibrary.isReady {
-        //     if loading {
-        //         print("loadingSprites")
-        //         loading = false
-        //     }
-        // }
-        // print("url loaded")
+    override func preCalculate(canvas:Canvas) {
+        debugInformation.append("MainScene Data: Attributes: groundLevel: \(groundLevel) reset: \(reset) splayable: \(playable), playing:\(playing)")
     }
+    
 }

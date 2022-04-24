@@ -29,7 +29,7 @@ class Bird : RenderableEntity, KeyDownHandler {
     
     //attributes
     let fatness : Double = 1        //heheheheh
-    var flapPower : Double = 10.0     //replaces yVelocity 
+    var flapPower : Double = 14.25     //replaces yVelocity 
     
     //time
     let frameRate = 30                //frames per second 
@@ -38,9 +38,9 @@ class Bird : RenderableEntity, KeyDownHandler {
     var timeStep : Double = 0
     
     //environment
-    let gravity : Double = 20 
+    let gravity : Double = 30 
     let wind : Double = 0.0
-
+    
     func returnRect() -> Rect {
         let rect = birdBoundingRect
         return rect
@@ -63,7 +63,7 @@ class Bird : RenderableEntity, KeyDownHandler {
     //key presses
     func onKeyDown(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
         if isActive {
-            if key == "w" {
+            if key == "w" || key == "" {
                 yVelocity = -1 * flapPower
             }
             if !xLocked {
@@ -87,44 +87,53 @@ class Bird : RenderableEntity, KeyDownHandler {
         guard let scene = scene as? MainScene else {
             fatalError("mainScene required for birdy boi")
         }
+        //test to see if player is too high
+        if birdBoundingRect.topLeft.y <= -500 {
+            scene.birdDeath()
+            scene.playing = false
+        }
 
+        
+        //test to see if player playing
+        if scene.playing {
+            scene.reset = false
+            isActive = true
+        }
+        
         //play death animation
         if isDying {
             scene.playable = false
+            scene.isDying = true
             if yPos < canvasSize.height + 500 {
-                if time >= timeCoefficient {
-                    yVelocity += gravity
-                }
+                yVelocity += gravity / Double(frameRate)
+                xPos -= 5
             } else {
                 reset()
+                print("reset")
                 scene.reset = true
                 isDying = false
+                scene.isDying = false
                 scene.playable = true
             }
         }
         
-        //test to see if player playing
-        if scene.playing {
-            isActive = true
+        //passive movement while in start screen
+        if !isActive && scene.playable {
+            yVelocity = 0
+            xVelocity = 0
         }
         
         // calculate new positions
         xPos += Int(xVelocity)
         yPos += Int(yVelocity)
-        
+
         //wind
-        if time >= timeCoefficient {
+        if time >= timeCoefficient && isActive {
             xVelocity -= wind / Double(frameRate)
         } 
         
-        //passive movement while in start screen
-        if !isActive {
-            yVelocity = 0
-            xVelocity = 0
-        }
-        
         //gravity
-        if time >= timeCoefficient {
+        if time >= timeCoefficient && isActive {
             yVelocity += gravity / Double(frameRate)
         }
 
@@ -137,6 +146,9 @@ class Bird : RenderableEntity, KeyDownHandler {
         } else {
             time = 0
         }
+
+        //update debug (/n means to move on to next section of data)
+        scene.debugInformation.append("Bird Data: position: (\(xPos),\(yPos)), velocity: (\(xVelocity),\(yVelocity)), States: isActive:\(isActive) isDying:\(isDying), Attributes: fatness:\(fatness) flapPower:(\(flapPower))")
     }
     
     override func boundingRect() -> Rect {
@@ -148,8 +160,6 @@ class Bird : RenderableEntity, KeyDownHandler {
         guard let mainScene = scene as? MainScene else {
             fatalError("mainscene needed to initiate sprite library")
         }
-        spriteLibrary = mainScene.spriteLibrary
-        canvas.setup(spriteLibrary)
                 
         //ObEsItY FaCtoR
         birdBoundingRect.size.width = Int(Double(birdBoundingRect.size.width) * fatness)
@@ -158,19 +168,24 @@ class Bird : RenderableEntity, KeyDownHandler {
         flapPower = flapPower / fatness
         //setup
         yPos = canvasSize.center.y
-        xPos = 250
+        xPos = 550
         returnPosY = yPos
         returnPosX = xPos
         dispatcher.registerKeyDownHandler(handler:self)
     }
 
     override func render(canvas: Canvas) {
+        guard let scene = scene as? MainScene else {
+            fatalError("MainScene needed for Bird render")
+        }
+
         //bird bounding rect render
         let birdRectangle = Rectangle(rect: birdBoundingRect, fillMode: .stroke)
         canvas.render(birdRectangle)
 
         //sprite render
-        if spriteLibrary.isReady {
+        if scene.spriteLibraryReady {
+            spriteLibrary = scene.returnSpriteLibrary()!
             spriteLibrary.renderMode = .sourceAndDestination(sourceRect:sprite, destinationRect: birdBoundingRect)
             canvas.render(spriteLibrary)
         }
