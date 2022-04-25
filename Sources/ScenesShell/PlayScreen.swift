@@ -7,7 +7,7 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
         
     //Visuals
     let text = Text(location: Point(x: 50,y: 50), text: "click to FLY!!!")
-    
+
     //attributes
         
     //events
