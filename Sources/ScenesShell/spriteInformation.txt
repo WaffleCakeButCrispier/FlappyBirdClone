@@ -1,0 +1,13 @@
+4 : 3 ratio
+1920 x 1080
+192 x 108
+1:10 aspect ratio
+=================
+OBJECT); [(origin), (end), (size)]
+
+BACKGROUNDS);
+frontBackground: [(0,0), (192,108), (192,108)]
+midBackround:	  [(0,108), (192,216), (192,108)]
+lastBackground:	   [(0,216), (192,324), (192,108)]
+----------------
+BIRD);
