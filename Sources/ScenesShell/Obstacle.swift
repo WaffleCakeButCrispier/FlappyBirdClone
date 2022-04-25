@@ -79,7 +79,6 @@ class Obstacle : RenderableEntity {
         
         //test to see if scene is resetting
         if scene.reset && resetable {
-            print("reseting Obstacle")
             scored = false
             resetPos()
             resetable = false
