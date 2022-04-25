@@ -17,6 +17,7 @@ class BackgroundLayer : Layer {
             fatalError("mainscene required to precalculate in background layer")
         }
         let speed = scene.speed
+        
         //setup background velocities and sprites
         backgroundFirst.setVelocity(velocity: speed * 0.5)
         backgroundFirst.sprite(spriteRect: Rect(topLeft:Point(x:0,y:0), size:Size(width:canvasSize.width / 4, height:canvasSize.height / 4)))

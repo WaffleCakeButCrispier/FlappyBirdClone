@@ -45,6 +45,7 @@ class Score : RenderableEntity {
         var fillStyle = FillStyle(color:Color(.lime))
         textCurrentScore.font = "20pt Comic Sans MS"
         textHighScore.font = "20pt Comic Sans MS"
+
         canvas.render(strokeStyle, fillStyle, scoreBorderRectangle)
         strokeStyle = StrokeStyle(color:Color(.black))
         fillStyle = FillStyle(color:Color(.hotpink))

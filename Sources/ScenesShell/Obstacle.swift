@@ -5,12 +5,12 @@ import Foundation
 class Obstacle : RenderableEntity {
     //Event States
     var isActive = false //are you in a playable state? 
-
     var resetable = false //are you resetable?
+
     //Visuals
     //Bounding Rects
-    var obstacleBoundingRectBottom = Rect(topLeft:Point(x:500,y:0), size:Size(width: 130, height: 100)) 
-    var obstacleBoundingRectTop = Rect(topLeft:Point(x:500,y:0), size:Size(width: 130, height: 100)) 
+    var obstacleBoundingRectBottom = Rect(topLeft:Point(x:500,y:0), size:Size(width: 130, height: 0)) 
+    var obstacleBoundingRectTop = Rect(topLeft:Point(x:500,y:0), size:Size(width: 130, height: 0)) 
 
     var pointBoundingRect = Rect(topLeft:Point(x: 500,y: 0), size:Size(width:100, height: 100))
     
@@ -32,20 +32,12 @@ class Obstacle : RenderableEntity {
     var yVelocity : Double = 0
     
     //attributes
+    var number = 0
+    
     var startVelocity : Double = 0.0
     var difficulty : Double = 1.0
 
     var scored = false //have you scored?
-    //debug functions
-    func returnVariable(vInt: Int?, vDouble: Double?) -> Double {
-        if vInt != nil {
-            return Double(vInt!)
-        }
-        if vDouble != nil {
-            return vDouble!
-        }
-        return 0.0
-    }
     
     //return rect :eyes:
     func returnRect() -> Rect {
@@ -76,27 +68,32 @@ class Obstacle : RenderableEntity {
     
     //reset after bird dies
     func resetPos() {
-        yPos = returnPosY - Int.random(in:0 ... 250) //randomize once reset
+        yPos = returnPosY - Int.random(in:100 ... 400) //randomize once reset
         xPos = returnPosX
     }
 
     override func calculate(canvasSize: Size) {
-         guard let scene = scene as? MainScene else {
-             fatalError("Main scene required for Obstacle")
-         }
-         
-         //test to see if player is playing
-         if scene.playing {
-             isActive = true
-         }
-          
-         //test to see if scene is resetting
-         if scene.reset && resetable {
-             isActive = false
-             resetPos()
-             resetable = false
-         }
-         
+        guard let scene = scene as? MainScene else {
+            fatalError("Main scene required for Obstacle")
+        }
+        
+        //test to see if scene is resetting
+        if scene.reset && resetable {
+            scored = false
+            resetPos()
+            resetable = false
+        }
+        
+        //test to see if player is playing
+        if scene.playing {
+            isActive = true
+        }
+
+        //test to see if player is dying
+        if scene.isDying {
+            isActive = false
+        }
+        
          //calculate only when the object is active
          if isActive && scene.playable {
              resetable = true //can be reset
@@ -110,7 +107,7 @@ class Obstacle : RenderableEntity {
              if !despawnContainmentBottom.intersection([.contact]).isEmpty{
                  xPos += 4500
                  yPos = returnPosY
-                 yPos -= Int.random(in:0 ... 350)
+                 yPos -= Int.random(in:100 ... 400)
                  scored = false
              }
              
@@ -118,7 +115,7 @@ class Obstacle : RenderableEntity {
             let birdRect = scene.returnBirdRect()
             let birdDeathContainmentBottom = obstacleBoundingRectBottom.containment(target: birdRect)
             let birdDeathContainmentTop = obstacleBoundingRectTop.containment(target: birdRect)
-
+            
             //test collision with ground
             let groundBoundingRect = scene.returnGroundRect()
             let birdGroundContainment = groundBoundingRect.containment(target: birdRect)
@@ -142,17 +139,19 @@ class Obstacle : RenderableEntity {
          //move rects to postion
          //bottom rect
          obstacleBoundingRectBottom.topLeft = Point(x:xPos, y:yPos)
-         obstacleBoundingRectBottom.size.height += 10000 //extend rect down a lot
+         
          //top rect
          obstacleBoundingRectTop.topLeft = obstacleBoundingRectBottom.topLeft
-         obstacleBoundingRectTop.topLeft.y += 1000 //move rect up a lot
-         obstacleBoundingRectTop.size.height += 1000 //extend rect down a lot
          obstacleBoundingRectTop.topLeft.y = obstacleBoundingRectBottom.topLeft.y - obstacleBoundingRectTop.size.height - spacing
+
          //point rect
          pointBoundingRect.topLeft = obstacleBoundingRectBottom.topLeft
          pointBoundingRect.size.height = spacing
          pointBoundingRect.topLeft.y = obstacleBoundingRectBottom.topLeft.y - spacing
          pointBoundingRect.topLeft.x += obstacleBoundingRectBottom.size.width
+
+         //update debug (/n means to move on to next section of data)
+         scene.debugInformation.append("Obstacle \(number) Data: Position: topRect:(\(obstacleBoundingRectTop.topLeft.x),\(obstacleBoundingRectTop.topLeft.y)) - bottomRect:(\(obstacleBoundingRectBottom.topLeft.x),\(obstacleBoundingRectBottom.topLeft.y)) - pointRect:(\(pointBoundingRect.topLeft.x),\(pointBoundingRect.topLeft.y)), Velocity: (\(xVelocity),\(yVelocity)), Attributes: isActive:\(isActive) resetable:\(resetable) scored:\(scored)")
     }
     
     init() {
@@ -164,19 +163,26 @@ class Obstacle : RenderableEntity {
         guard let scene = scene as? MainScene else {
             fatalError("mainscene needed to initiate sprite library")
         }
-        spriteLibrary = scene.spriteLibrary
-        canvas.setup(spriteLibrary)
-                
+        
         xPos += 1000
-        yPos += scene.groundLevel - obstacleBoundingRectBottom.size.height  
+        yPos += scene.groundLevel
         returnPosX += xPos
         returnPosY = yPos
         startVelocity = scene.speed
         xVelocity = startVelocity * difficulty 
-        yPos -= Int.random(in: 0 ... 250)
+        yPos -= Int.random(in: 100 ... 450)
+
+        //setup obstacle sizes
+        obstacleBoundingRectBottom.size.height += 1000 //extend rect down a lot
+        obstacleBoundingRectTop.topLeft.y += 1000 //move rect up a lot
+        obstacleBoundingRectTop.size.height += 1000 //extend rect down a lot
     }
     
     override func render(canvas: Canvas) {
+        guard let scene = scene as? MainScene else {
+            fatalError("MainScene needed for sprites for Obstacle")
+        }
+        
         //render bounding rects
         let obstacleRectangleBottom = Rectangle(rect: obstacleBoundingRectBottom, fillMode: .stroke)
         let obstacleRectangleTop = Rectangle(rect: obstacleBoundingRectTop, fillMode: .stroke)
@@ -184,7 +190,8 @@ class Obstacle : RenderableEntity {
         canvas.render(pointRectangle, obstacleRectangleBottom, obstacleRectangleTop)
 
         //sprite render
-        if spriteLibrary.isReady {
+        if scene.spriteLibraryReady {
+            spriteLibrary = scene.returnSpriteLibrary()!
             spriteLibrary.renderMode = .sourceAndDestination(sourceRect:spriteBottom, destinationRect: obstacleBoundingRectBottom)
             canvas.render(spriteLibrary)
             spriteLibrary.renderMode = .sourceAndDestination(sourceRect:spriteTop, destinationRect: obstacleBoundingRectTop)

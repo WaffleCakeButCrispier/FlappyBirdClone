@@ -85,13 +85,6 @@ class Background : RenderableEntity {
     }
 
     override func setup(canvasSize: Size , canvas:Canvas) {
-        //set graphics
-        guard let mainScene = scene as? MainScene else {
-            fatalError("mainscene needed to initiate sprite library")
-        }
-        spriteLibrary = mainScene.spriteLibrary
-        canvas.setup(spriteLibrary)
-        
         //setup rects
         firstRect.size = canvasSize
         lastRect.size = canvasSize
@@ -102,10 +95,16 @@ class Background : RenderableEntity {
     }
     
     override func render(canvas:Canvas) {
+        //setup Sprites
+        guard let scene = scene as? MainScene else {
+            fatalError("MainScene needed to setup sprites for Background")
+        }
+        
         let rectangleBack = Rectangle(rect:firstRect, fillMode: .stroke)
         let rectangleFront = Rectangle(rect:lastRect, fillMode: .stroke)
         canvas.render(rectangleBack, rectangleFront)
-        if spriteLibrary.isReady {
+        if scene.spriteLibraryReady {
+            spriteLibrary = scene.returnSpriteLibrary()!
             spriteLibrary.renderMode = .sourceAndDestination(sourceRect:sprite, destinationRect: firstRect)
             canvas.render(spriteLibrary)
             spriteLibrary.renderMode = .sourceAndDestination(sourceRect:sprite, destinationRect: lastRect)

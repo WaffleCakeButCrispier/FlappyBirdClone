@@ -36,6 +36,6 @@ class SpriteLibrary : RenderableEntity {
         }
         if spriteLibrary.isReady {
             scene.spriteLibraryReady = true
-        }
+        } 
     }
 }
