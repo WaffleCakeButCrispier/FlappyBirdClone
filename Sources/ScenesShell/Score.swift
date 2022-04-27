@@ -41,14 +41,14 @@ class Score : RenderableEntity {
     
     override func render(canvas: Canvas) {
         let scoreBorderRectangle = Rectangle(rect:scoreBorderRect, fillMode:.fillAndStroke)
-        var strokeStyle = StrokeStyle(color:Color(.red))
-        var fillStyle = FillStyle(color:Color(.lime))
-        textCurrentScore.font = "20pt Comic Sans MS"
-        textHighScore.font = "20pt Comic Sans MS"
+        var strokeStyle = StrokeStyle(color:Color(.black))
+        var fillStyle = FillStyle(color:Color(.orange))
+        textCurrentScore.font = "20pt Press Start"
+        textHighScore.font = "20pt 2P Press Start"
 
         canvas.render(strokeStyle, fillStyle, scoreBorderRectangle)
         strokeStyle = StrokeStyle(color:Color(.black))
-        fillStyle = FillStyle(color:Color(.hotpink))
+        fillStyle = FillStyle(color:Color(.white))
         canvas.render(strokeStyle, fillStyle, textCurrentScore, textHighScore)
         fillStyle = FillStyle(color:Color(.black))
     }

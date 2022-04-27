@@ -17,7 +17,7 @@ class SpriteLibrary : RenderableEntity {
     
     init() {
         //initiate sprite library
-        guard let spriteLibraryUrl = URL(string:"https://www.thoughtco.com/thmb/Zya6PS3m6XjRAmVo1HONvY9DW_A=/3865x2174/smart/filters:no_upscale()/abstract-paper-flower-pattern-656688606-5acfba2eae9ab80038461ca0.jpg") else {
+        guard let spriteLibraryUrl = URL(string:"https://www.codermerlin.com/users/soohan-cho/images/SpriteSheet.FlappyBirdClone.ver-1.0.2(high%20res).png") else {
             fatalError("failed to load sprite library url")
         }
         spriteLibrary = Image(sourceURL: spriteLibraryUrl)
@@ -36,6 +36,6 @@ class SpriteLibrary : RenderableEntity {
         }
         if spriteLibrary.isReady {
             scene.spriteLibraryReady = true
-        }
+        } 
     }
 }

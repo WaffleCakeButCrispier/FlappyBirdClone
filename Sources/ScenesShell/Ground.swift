@@ -12,9 +12,9 @@ class Ground : RenderableEntity {
     var lastGroundRect = Rect(topLeft: Point(x:0, y:0), size:Size(width: 1000, height:500))
     
     var spriteLibrary : Image = Image(sourceURL: URL(string:"placeholder")!)
-    var sprite : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:1000,height:500)) 
+    var sprite : Rect = Rect(topLeft:Point(x:0,y:972), size:Size(width:576,height:324)) 
 
-    //velocity
+    //velocityd
     var velocityX : Double = -10.0
     
     

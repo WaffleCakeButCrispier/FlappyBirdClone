@@ -20,7 +20,7 @@ class DebugMenu : RenderableEntity {
         
         for element in scene.debugInformation {
             text.text = element
-            canvas.render(fillStyle, text)
+            //canvas.render(fillStyle, text)
             text.location.y += 11
         }
         

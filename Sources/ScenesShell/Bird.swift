@@ -9,11 +9,13 @@ class Bird : RenderableEntity, KeyDownHandler {
 
     //Visuals
     var birdBoundingRect = Rect(topLeft:Point(x:0, y:0), size:Size(width: 50, height: 50))
-
+    
     //sprite
     var spriteLibrary : Image = Image(sourceURL: URL(string:"placeholder")!)
-    var sprite : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:50,height:50)) 
-    
+    var idleSprite : Rect = Rect(topLeft:Point(x:585,y:0), size:Size(width:150,height:150)) 
+    var flapSprite : Rect = Rect(topLeft:Point(x:735,y:0), size:Size(width:150,height:150)) 
+
+    var spriteState = 0
     //Position
     var yPos = 0
     var xPos = 0
@@ -28,6 +30,8 @@ class Bird : RenderableEntity, KeyDownHandler {
     var xLocked = true
     
     //attributes
+    var orientation : Double = 0
+
     let fatness : Double = 1        //heheheheh
     var flapPower : Double = 14.25     //replaces yVelocity 
     
@@ -93,7 +97,6 @@ class Bird : RenderableEntity, KeyDownHandler {
             scene.playing = false
         }
 
-        
         //test to see if player playing
         if scene.playing {
             scene.reset = false
@@ -104,7 +107,7 @@ class Bird : RenderableEntity, KeyDownHandler {
         if isDying {
             scene.playable = false
             scene.isDying = true
-            if yPos < canvasSize.height + 500 {
+            if yPos < scene.groundLevel + 500 {
                 yVelocity += gravity / Double(frameRate)
                 xPos -= 5
             } else {
@@ -186,7 +189,20 @@ class Bird : RenderableEntity, KeyDownHandler {
         //sprite render
         if scene.spriteLibraryReady {
             spriteLibrary = scene.returnSpriteLibrary()!
-            spriteLibrary.renderMode = .sourceAndDestination(sourceRect:sprite, destinationRect: birdBoundingRect)
+            if yVelocity < 0 {
+                switch spriteState {
+                case 0:
+                    spriteLibrary.renderMode = .sourceAndDestination(sourceRect:flapSprite, destinationRect: birdBoundingRect)
+                    spriteState = 1
+                case 1:
+                    spriteLibrary.renderMode = .sourceAndDestination(sourceRect:idleSprite, destinationRect: birdBoundingRect)
+                    spriteState = 0
+                default:
+                    break
+                }
+            } else {
+                spriteLibrary.renderMode = .sourceAndDestination(sourceRect:idleSprite, destinationRect: birdBoundingRect)
+            }
             canvas.render(spriteLibrary)
         }
         

@@ -16,8 +16,8 @@ class Obstacle : RenderableEntity {
     
     //sprite
     var spriteLibrary : Image = Image(sourceURL: URL(string:"placeholder")!)
-    var spriteTop : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:130, height:1000))
-    var spriteBottom : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:130, height:1000)) 
+    var spriteTop : Rect = Rect(topLeft:Point(x:663,y:150), size:Size(width:78, height:600)) 
+    var spriteBottom : Rect = Rect(topLeft:Point(x:585,y:150), size:Size(width:78, height:600))
     
     //Position
     var yPos = 0
