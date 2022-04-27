@@ -11,11 +11,17 @@ class Bird : RenderableEntity, KeyDownHandler {
     var birdBoundingRect = Rect(topLeft:Point(x:0, y:0), size:Size(width: 50, height: 50))
     
     //sprite
+<<<<<<< HEAD
+    var spriteLibrary : Image = Image(sourceURL: URL(string:"Placeholder")!)
+    var sprite : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:50,height:50)) 
+    
+=======
     var spriteLibrary : Image = Image(sourceURL: URL(string:"placeholder")!)
     var idleSprite : Rect = Rect(topLeft:Point(x:585,y:0), size:Size(width:150,height:150)) 
     var flapSprite : Rect = Rect(topLeft:Point(x:735,y:0), size:Size(width:150,height:150)) 
 
     var spriteState = 0
+>>>>>>> 8dadfa116ff856e4c68c9ef1a392752cd6b8c2a6
     //Position
     var yPos = 0
     var xPos = 0
