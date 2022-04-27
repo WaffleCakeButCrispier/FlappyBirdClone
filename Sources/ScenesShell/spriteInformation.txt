@@ -6,8 +6,24 @@
 OBJECT); [(origin), (end), (size)]
 
 BACKGROUNDS);
-frontBackground: [(0,0), (192,108), (192,108)]
-midBackround:	  [(0,108), (192,216), (192,108)]
-lastBackground:	   [(0,216), (192,324), (192,108)]
+frontBackground:  [(0,0), (575,323), (576,324)]
+midBackround:	    [(0,324), (575,647), (576,324)]
+lastBackground:	  [(0,648), (575,971), (576,324)]
+
+GROUND);
+ground:  [(0,972), (575,1259), (576,228)]
 ----------------
 BIRD);
+idleSprite:       [(585,0), (734,149), (150,150)]
+flapSprite:       [(735,0), (884,149), (150,150)]
+
+PIPE (obstacle));
+bottomPipe:       [(585,150), (662,749), (78,600)]
+topPipe:          [(663,150), (743,749), (78,600)]
+----------------
+UI);
+jumpInstruction:  [(585,753), (713,821), (99,69)]
+jumpInstruction2: [(714,753), (842,821), (99,69)]
+
+flapInstruction:  [(585,822), (713,890), (99,69)]
+flapInstruction2: [(714,822), (842,890), (99,69)]
