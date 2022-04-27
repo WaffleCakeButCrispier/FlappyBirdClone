@@ -6,9 +6,12 @@
 OBJECT); [(origin), (end), (size)]
 
 BACKGROUNDS);
-frontBackground:  [(0,0), (192,108), (192,108)]
-midBackround:	    [(0,108), (192,216), (192,108)]
-lastBackground:	  [(0,216), (192,324), (192,108)]
+frontBackground:  [(0,0), (191,108), (192,108)]
+midBackround:	    [(0,108), (191,216), (192,108)]
+lastBackground:	  [(0,216), (191,324), (192,108)]
+
+GROUND);
+ground:  [(0,324), (191,491), (192,108)]
 ----------------
 BIRD);
 idleSprite:       [(195,0), (244,49), (50,50)]
