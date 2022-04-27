@@ -7,7 +7,7 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
         
     //Visuals
     let text = Text(location: Point(x: 50,y: 50), text: "click to FLY!!!")
-
+    
     //attributes
         
     //events
@@ -16,11 +16,12 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
             fatalError("main scene is needed for PlayScreen")
         }
         
-        if scene.playable {
+        if scene.playable && scene.spriteLibraryReady {
             scene.reset = false
             isActive = false
             scene.playing = true
         }
+        
     }
 
     func birdDeath() {
@@ -40,6 +41,7 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
     
     override func setup(canvasSize:Size, canvas:Canvas) {
         text.location = canvasSize.center
+        text.font = "20pt M"
         dispatcher.registerEntityMouseClickHandler(handler:self)
     }
 
@@ -48,6 +50,17 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
     }
 
     override func render(canvas: Canvas) {
+        guard let scene = scene as? MainScene else {
+            fatalError("MainScene needed for PlayScreen render")
+        }
+
+        //wait until sprites have loaded
+        if !scene.spriteLibraryReady {
+            text.text = "loading sprites..."
+        } else {
+            text.text = "click to FLY!!!"
+        }
+        
         guard let scene = scene as? MainScene else {
             fatalError("main scene is needed for PlayScreen")
         }

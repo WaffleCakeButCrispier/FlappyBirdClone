@@ -20,11 +20,11 @@ class BackgroundLayer : Layer {
         
         //setup background velocities and sprites
         backgroundFirst.setVelocity(velocity: speed * 0.5)
-        backgroundFirst.sprite(spriteRect: Rect(topLeft:Point(x:0,y:0), size:Size(width:canvasSize.width / 4, height:canvasSize.height / 4)))
+        backgroundFirst.sprite(spriteRect: Rect(topLeft:Point(x:0,y:0), size:Size(width:576, height:324)))
         backgroundMid.setVelocity(velocity: speed * 0.25)
-        backgroundMid.sprite(spriteRect: Rect(topLeft:Point(x:0,y:0), size:Size(width:canvasSize.width / 2, height:canvasSize.height / 2)))
+        backgroundMid.sprite(spriteRect: Rect(topLeft:Point(x:0,y:324), size:Size(width:576, height:324)))
         backgroundLast.setVelocity(velocity: speed * 0.1)
-        backgroundLast.sprite(spriteRect: Rect(topLeft:Point(x:0,y:0), size:Size(width:canvasSize.width, height:canvasSize.height)))
+        backgroundLast.sprite(spriteRect: Rect(topLeft:Point(x:0,y:648), size:Size(width:576, height:324)))
     }
     
     init() {

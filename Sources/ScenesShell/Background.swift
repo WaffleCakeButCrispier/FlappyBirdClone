@@ -100,9 +100,9 @@ class Background : RenderableEntity {
             fatalError("MainScene needed to setup sprites for Background")
         }
         
-        let rectangleBack = Rectangle(rect:firstRect, fillMode: .stroke)
-        let rectangleFront = Rectangle(rect:lastRect, fillMode: .stroke)
-        canvas.render(rectangleBack, rectangleFront)
+        // let rectangleBack = Rectangle(rect:firstRect, fillMode: .stroke)
+        // let rectangleFront = Rectangle(rect:lastRect, fillMode: .stroke)
+        // canvas.render(rectangleBack, rectangleFront)
         if scene.spriteLibraryReady {
             spriteLibrary = scene.returnSpriteLibrary()!
             spriteLibrary.renderMode = .sourceAndDestination(sourceRect:sprite, destinationRect: firstRect)
@@ -110,6 +110,6 @@ class Background : RenderableEntity {
             spriteLibrary.renderMode = .sourceAndDestination(sourceRect:sprite, destinationRect: lastRect)
             canvas.render(spriteLibrary)
         }
-
+        
     }
 }
