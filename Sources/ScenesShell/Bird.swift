@@ -8,7 +8,7 @@ class Bird : RenderableEntity, KeyDownHandler {
     var isDying = false //are you *insert skull emoji*
 
     //Visuals
-    var birdBoundingRect = Rect(topLeft:Point(x:0, y:0), size:Size(width: 50, height: 50))
+    var birdBoundingRect = Rect(topLeft:Point(x:0, y:0), size:Size(width: 70, height: 70))
     
     //sprite
     var spriteLibrary : Image = Image(sourceURL: URL(string:"Placeholder")!)
