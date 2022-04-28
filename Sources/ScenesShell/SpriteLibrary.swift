@@ -17,7 +17,7 @@ class SpriteLibrary : RenderableEntity {
     
     init() {
         //initiate sprite library
-        guard let spriteLibraryUrl = URL(string:"https://www.codermerlin.com/users/soohan-cho/images/SpriteSheet.FlappyBirdClone.ver.1.0.3(robotConversion)(highRes).png") else {
+        guard let spriteLibraryUrl = URL(string:"https://www.codermerlin.com/users/soohan-cho/images/SpriteSheet.FlappyBirdClone.ver.1.0.4_10.png") else {
             fatalError("failed to load sprite library url")
         }
         spriteLibrary = Image(sourceURL: spriteLibraryUrl)

@@ -42,12 +42,12 @@ class Ground : RenderableEntity {
 
             let canvasContainmentFirst = canvasRect.containment(target: firstGroundRect)
             if !canvasContainmentFirst.intersection([.beyondLeft]).isEmpty {
-                firstGroundRect.topLeft.x += canvasSize.width * 2
+                firstGroundRect.topLeft.x += (canvasSize.width * 2)
             }
 
             let canvasContainmentLast = canvasRect.containment(target: lastGroundRect)
             if !canvasContainmentLast.intersection([.beyondLeft]).isEmpty {
-                lastGroundRect.topLeft.x += canvasSize.width * 2
+                lastGroundRect.topLeft.x += (canvasSize.width * 2)
             }
             
             //calculate new positions
@@ -61,13 +61,13 @@ class Ground : RenderableEntity {
         guard let scene = scene as? MainScene else {
             fatalError("MainScene is needed for Ground setup")
         }
-        groundBoundingRect.size.width = canvasSize.width
+        groundBoundingRect.size.width = canvasSize.width + 5
         groundBoundingRect.topLeft.y = scene.groundLevel
 
-        firstGroundRect.size.width = canvasSize.width
+        firstGroundRect.size.width = canvasSize.width + 5
         firstGroundRect.topLeft.y = scene.groundLevel
 
-        lastGroundRect.size.width = canvasSize.width
+        lastGroundRect.size.width = canvasSize.width + 5
         lastGroundRect.topLeft.y = scene.groundLevel
         lastGroundRect.topLeft.x += canvasSize.width
         

@@ -1,5 +1,6 @@
 import Igis
 import Scenes
+import Foundation
 
 class PlayScreen : RenderableEntity, EntityMouseClickHandler {
     //Event States
@@ -7,9 +8,23 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
         
     //Visuals
     let text = Text(location: Point(x: 50,y: 50), text: "click to FLY!!!")
-    
+
+    //sprite
+    var spriteLibrary : Image = Image(sourceURL: URL(string:"Placeholder")!)
+
+    var jumpRect : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:99,height:69)) 
+    var jumpSprite  : Rect = Rect(topLeft:Point(x:586,y:754), size:Size(width:97,height:67)) 
+    var jumpBlinkSprite  : Rect = Rect(topLeft:Point(x:715,y:754), size:Size(width:97,height:67)) 
+
+    var playRect : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:99,height:69)) 
+    var playSprite  : Rect = Rect(topLeft:Point(x:586,y:823), size:Size(width:97,height:67)) 
+    var playBlinkSprite  : Rect = Rect(topLeft:Point(x:715,y:823), size:Size(width:97,height:67)) 
+
+    var spriteState = 0
     //attributes
-        
+    var timeStep : Int = 5
+    var time : Int = 0
+    
     //events
     func onEntityMouseClick(globalLocation:Point) {
         guard let scene = scene as? MainScene else {
@@ -43,6 +58,13 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
         text.location = canvasSize.center
         text.font = "20pt M"
         dispatcher.registerEntityMouseClickHandler(handler:self)
+
+        //center icons
+        jumpRect.topLeft.x = canvasSize.center.x - (2 * jumpRect.size.width) - 20
+        jumpRect.topLeft.y = canvasSize.center.y - jumpRect.size.height
+
+        playRect.topLeft.x = canvasSize.center.x + 20
+        playRect.topLeft.y = canvasSize.center.y - jumpRect.size.height
     }
 
     override func teardown() {
@@ -53,20 +75,45 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
         guard let scene = scene as? MainScene else {
             fatalError("MainScene needed for PlayScreen render")
         }
-
-        //wait until sprites have loaded
-        if !scene.spriteLibraryReady {
-            text.text = "loading sprites..."
-        } else {
-            text.text = "click to FLY!!!"
-        }
         
-        guard let scene = scene as? MainScene else {
-            fatalError("main scene is needed for PlayScreen")
-        }
-
-        if isActive && scene.playable {
-            canvas.render(text)
+        if isActive && scene.playable && scene.spriteLibraryReady {
+            spriteLibrary = scene.returnSpriteLibrary()!
+            switch spriteState {
+            case 0:
+                if time < timeStep {
+                    spriteLibrary.renderMode = .sourceAndDestination(sourceRect:jumpSprite,destinationRect:jumpRect)
+                    canvas.render(spriteLibrary)
+                    spriteLibrary.renderMode = .sourceAndDestination(sourceRect:playSprite,destinationRect:playRect)
+                    canvas.render(spriteLibrary)
+                    time += 1
+                } else {
+                    //will not render if not rendered for final time in cycle
+                    spriteLibrary.renderMode = .sourceAndDestination(sourceRect:jumpSprite,destinationRect:jumpRect)
+                    canvas.render(spriteLibrary)
+                    spriteLibrary.renderMode = .sourceAndDestination(sourceRect:playSprite,destinationRect:playRect)
+                    canvas.render(spriteLibrary)
+                    time = 0
+                    spriteState = 1
+                }
+            case 1:
+                if time < timeStep {
+                    spriteLibrary.renderMode = .sourceAndDestination(sourceRect:jumpBlinkSprite,destinationRect:jumpRect)
+                    canvas.render(spriteLibrary)
+                    spriteLibrary.renderMode = .sourceAndDestination(sourceRect:playBlinkSprite,destinationRect:playRect)
+                    canvas.render(spriteLibrary)
+                    time += 1
+                } else {
+                    //will not render if not rendered for final time in cycle
+                    spriteLibrary.renderMode = .sourceAndDestination(sourceRect:jumpBlinkSprite,destinationRect:jumpRect)
+                    canvas.render(spriteLibrary)
+                    spriteLibrary.renderMode = .sourceAndDestination(sourceRect:playBlinkSprite,destinationRect:playRect)
+                    canvas.render(spriteLibrary)
+                    time = 0
+                    spriteState = 0
+                }
+            default:
+                break
+            }
         }
 
         if scene.reset {

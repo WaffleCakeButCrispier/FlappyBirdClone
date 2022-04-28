@@ -87,7 +87,9 @@ class Background : RenderableEntity {
     override func setup(canvasSize: Size , canvas:Canvas) {
         //setup rects
         firstRect.size = canvasSize
+        firstRect.size.width += 4 //added to ensure smooth transition between frames
         lastRect.size = canvasSize
+        lastRect.size.width += 4 //added to ensure smooth transition between frames
         firstRectX = 0
         lastRectX = canvasSize.width
         firstRect.topLeft.x = 0
