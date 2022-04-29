@@ -8,16 +8,19 @@ class Score : RenderableEntity {
     //Visuals
     var textCurrentScore = Text(location:Point(x:100,y:100),text: "")
     var textHighScore = Text(location:Point(x:100,y:120),text: "")
-    let scoreBorderRect = Rect(topLeft:Point(x:90, y:75), size:Size(width:250, height:50))
-    
+
+    var newHighScore = Text(location:Point(x:100,y:120),text:"NEW HIGH SCORE!")
     //attributes
     var currentScore = 0
     var highScore = 0
 
+    let newHighScoreDuration = 50
+    var time = 0
     //reset score
     func resetScore() {
         if highScore < currentScore {
             highScore = currentScore
+            time = 50
         }
         currentScore = 0
     }
@@ -29,27 +32,40 @@ class Score : RenderableEntity {
     
     override func calculate(canvasSize:Size) {
         //make text our current Score
-        textCurrentScore.text = ""
-        textHighScore.text = ""
-        textCurrentScore.text += "CurrentScore : \(currentScore)"
-        textHighScore.text += "HighScore : \(highScore)"
+        textCurrentScore.text = "\(currentScore)"
+        textHighScore.text = "\(highScore)"
     }
     
     init() {
         super.init(name:"Score")
     }
+
+    override func setup(canvasSize:Size, canvas:Canvas) {
+        textCurrentScore.location.x = canvasSize.center.x
+        
+        textHighScore.location.x = canvasSize.center.x + 3
+        textHighScore.location.y += 10
+
+        newHighScore.location = textHighScore.location
+        newHighScore.location.x += 20
+
+        textCurrentScore.font = "20pt Arial"
+        textHighScore.font = "10pt Arial"
+        newHighScore.font = "10pt Arial"
+        var fillStyle = FillStyle(color:Color(.black))
+        canvas.render(fillStyle, textCurrentScore, textHighScore)
+        fillStyle = FillStyle(color:Color(.black))
+    }
     
     override func render(canvas: Canvas) {
-        let scoreBorderRectangle = Rectangle(rect:scoreBorderRect, fillMode:.fillAndStroke)
-        var strokeStyle = StrokeStyle(color:Color(.black))
-        var fillStyle = FillStyle(color:Color(.orange))
-        textCurrentScore.font = "20pt Press Start"
-        textHighScore.font = "20pt 2P Press Start"
-
-        canvas.render(strokeStyle, fillStyle, scoreBorderRectangle)
-        strokeStyle = StrokeStyle(color:Color(.black))
-        fillStyle = FillStyle(color:Color(.white))
-        canvas.render(strokeStyle, fillStyle, textCurrentScore, textHighScore)
+        //render newHighScore
+        if time > 0 {
+            canvas.render(newHighScore)
+            time -= 1
+        }
+        
+        var fillStyle = FillStyle(color:Color(.black))
+        canvas.render(fillStyle, textCurrentScore, textHighScore)
         fillStyle = FillStyle(color:Color(.black))
     }
 }

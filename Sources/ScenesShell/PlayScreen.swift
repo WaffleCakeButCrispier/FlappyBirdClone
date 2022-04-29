@@ -12,11 +12,11 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
     //sprite
     var spriteLibrary : Image = Image(sourceURL: URL(string:"Placeholder")!)
 
-    var jumpRect : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:99,height:69)) 
+    var jumpRect : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:150,height:105)) 
     var jumpSprite  : Rect = Rect(topLeft:Point(x:586,y:754), size:Size(width:97,height:67)) 
     var jumpBlinkSprite  : Rect = Rect(topLeft:Point(x:715,y:754), size:Size(width:97,height:67)) 
 
-    var playRect : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:99,height:69)) 
+    var playRect : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:150,height:105)) 
     var playSprite  : Rect = Rect(topLeft:Point(x:586,y:823), size:Size(width:97,height:67)) 
     var playBlinkSprite  : Rect = Rect(topLeft:Point(x:715,y:823), size:Size(width:97,height:67)) 
 
@@ -60,11 +60,11 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
         dispatcher.registerEntityMouseClickHandler(handler:self)
 
         //center icons
-        jumpRect.topLeft.x = canvasSize.center.x - (2 * jumpRect.size.width) - 20
+        jumpRect.topLeft.x = canvasSize.center.x - jumpRect.size.width - 5
         jumpRect.topLeft.y = canvasSize.center.y - jumpRect.size.height
 
-        playRect.topLeft.x = canvasSize.center.x + 20
-        playRect.topLeft.y = canvasSize.center.y - jumpRect.size.height
+        playRect.topLeft.x = canvasSize.center.x + 5
+        playRect.topLeft.y = canvasSize.center.y - playRect.size.height 
     }
 
     override func teardown() {
