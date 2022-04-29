@@ -7,7 +7,7 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
     var isActive = true
         
     //Visuals
-    let text = Text(location: Point(x: 50,y: 50), text: "click to FLY!!!")
+    let text = Text(location: Point(x: 50,y: 50), text: "")
 
     //sprite
     var spriteLibrary : Image = Image(sourceURL: URL(string:"Placeholder")!)

@@ -44,11 +44,46 @@ class Obstacle : RenderableEntity {
         let rect = obstacleBoundingRectBottom
         return rect
     }
+
+    //move up and down
+    var hardMode = false
+    let movementAmount = Int.random(in: -100..<100)
+    var movementCheck = 0
+
+    func moveUpAndDown() {
+        var movementDirectionAndSpeed : Int
+        if movementAmount < 0 {
+            movementDirectionAndSpeed = -5
+            if movementCheck <= movementAmount {
+                obstacleBoundingRectBottom.height += movementDirectionAndSpeed
+                obstacleBoundingRectTop.height += movementDirectionAndSpeed
+                movementCheck += 5
+            } else {
+                obstacleBoundingRectBottom.height -= movementDirectionAndSpeed
+                obstacleBoundingRectTop.height -= movementDirectionAndSpeed
+                movementCheck -= 5
+            }
+        } else if movementAmount > 0 {
+            movementDirectionAndSpeed = 5
+            if movementCheck <= movementAmount {
+                obstacleBoundingRectBottom.height += movementDirectionAndSpeed
+                obstacleBoundingRectTop.height += movementDirectionAndSpeed
+                movementCheck += 5
+            } else {
+                obstacleBoundingRectBottom.height -= movementDirectionAndSpeed
+                obstacleBoundingRectTop.height -= movementDirectionAndSpeed
+                movementCheck -= 5
+            }
+        }
+    }
     
     //move to specified point
     func move(to point: Point) {
         obstacleBoundingRectBottom.topLeft = point
+        
     }
+
+        
     //offsets by specified dimensions 
     func offset(x: Int, y:Int) { 
         xPos += x
