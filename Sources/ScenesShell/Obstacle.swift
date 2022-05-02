@@ -47,36 +47,49 @@ class Obstacle : RenderableEntity {
 
     //move up and down
     var hardMode = false
-    let movementAmount = Int.random(in: -100..<100)
+    
+    
+    var amountMoved = 0
+    var movementAmount = Int.random(in: -1000 ..< 1000)
     var movementCheck = 0
-
+    
     func moveUpAndDown() {
-        var movementDirectionAndSpeed : Int
+        print(movementAmount)
+        //test to see if in range
+        while abs(movementAmount) - 20 < 0 {
+            movementAmount = Int.random(in: -1000 ..< 1000)
+            print("not in range")
+        }
+        
         if movementAmount < 0 {
-            movementDirectionAndSpeed = -5
-            if movementCheck <= movementAmount {
-                obstacleBoundingRectBottom.height += movementDirectionAndSpeed
-                obstacleBoundingRectTop.height += movementDirectionAndSpeed
-                movementCheck += 5
+            if abs(movementAmount) > obstacleBoundingRectTop.height{
+                movementCheck = 0
             } else {
-                obstacleBoundingRectBottom.height -= movementDirectionAndSpeed
-                obstacleBoundingRectTop.height -= movementDirectionAndSpeed
-                movementCheck -= 5
-            }
-        } else if movementAmount > 0 {
-            movementDirectionAndSpeed = 5
-            if movementCheck <= movementAmount {
-                obstacleBoundingRectBottom.height += movementDirectionAndSpeed
-                obstacleBoundingRectTop.height += movementDirectionAndSpeed
-                movementCheck += 5
-            } else {
-                obstacleBoundingRectBottom.height -= movementDirectionAndSpeed
-                obstacleBoundingRectTop.height -= movementDirectionAndSpeed
-                movementCheck -= 5
+                movementCheck = -5
             }
         }
+
+        else if movementAmount > 0 {
+            if abs(movementAmount) > obstacleBoundingRectBottom.height {
+                movementCheck = 0
+            } else {
+                movementCheck = 5
+            }
+        }
+
+        obstacleBoundingRectTop.topLeft.y += movementCheck
+        obstacleBoundingRectBottom.topLeft.y += movementCheck
+        pointBoundingRect.topLeft.y += movementCheck
+        amountMoved += 5
+
+        if amountMoved > abs(movementAmount) {
+            amountMoved = -amountMoved
+            movementCheck = -movementCheck
+        }
     }
-    
+            
+            
+     
     //move to specified point
     func move(to point: Point) {
         obstacleBoundingRectBottom.topLeft = point
@@ -187,6 +200,7 @@ class Obstacle : RenderableEntity {
 
          //update debug (/n means to move on to next section of data)
          scene.debugInformation.append("Obstacle \(number) Data: Position: topRect:(\(obstacleBoundingRectTop.topLeft.x),\(obstacleBoundingRectTop.topLeft.y)) - bottomRect:(\(obstacleBoundingRectBottom.topLeft.x),\(obstacleBoundingRectBottom.topLeft.y)) - pointRect:(\(pointBoundingRect.topLeft.x),\(pointBoundingRect.topLeft.y)), Velocity: (\(xVelocity),\(yVelocity)), Attributes: isActive:\(isActive) resetable:\(resetable) scored:\(scored)")
+         moveUpAndDown()
     }
     
     init() {
