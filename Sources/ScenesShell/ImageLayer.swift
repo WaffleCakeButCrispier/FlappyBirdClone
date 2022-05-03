@@ -9,6 +9,11 @@ class SpriteLayer : Layer {
     func returnSpriteLibrary() -> Image? {
         spriteLibrary.returnSpriteLibrary()
     }
+
+    func keyDownEvent(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
+        spriteLibrary.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
+    }
+    
     
     init() {
         super.init(name:"SpriteLayer")

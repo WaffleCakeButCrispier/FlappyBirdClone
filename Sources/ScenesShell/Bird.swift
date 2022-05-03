@@ -2,7 +2,7 @@ import Igis
 import Scenes
 import Foundation
 
-class Bird : RenderableEntity, KeyDownHandler {
+class Bird : RenderableEntity {
     //Event States
     var isActive = false //are you in a playable state?
     var isDying = false //are you *insert skull emoji*
@@ -32,8 +32,10 @@ class Bird : RenderableEntity, KeyDownHandler {
     //attributes
     var orientation : Double = 0
 
-    let fatness : Double = 1        //heheheheh
-    var flapPower : Double = 14.25     //replaces yVelocity 
+    let fatness = 1.0        //heheheheh
+    var flapPower = 14.25     //replaces yVelocity
+
+    var rotationRadians = 0.0
     
     //time
     let frameRate = 30                //frames per second 
@@ -58,14 +60,22 @@ class Bird : RenderableEntity, KeyDownHandler {
     func reset() {
         yPos = returnPosY
         xPos = returnPosX
+        rotationRadians = 0
     }
     
     func play() {
         isActive = true
     }
-    
-    //key presses
-    func onKeyDown(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
+
+    //when mouse is pressed
+    func mouseClickEvent(globalLocation: Point) {
+        if isActive {
+            yVelocity = -1 * flapPower
+        }
+    }
+
+    //when key is pressed
+    func keyDownEvent(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
         if isActive {
             if key == "w" || key == "" {
                 yVelocity = -1 * flapPower
@@ -81,7 +91,7 @@ class Bird : RenderableEntity, KeyDownHandler {
                 }
             }
         }
-    }
+    }     
     
     init() {
         super.init(name:"Bird")
@@ -91,6 +101,7 @@ class Bird : RenderableEntity, KeyDownHandler {
         guard let scene = scene as? MainScene else {
             fatalError("mainScene required for birdy boi")
         }
+
         //test to see if player is too high
         if birdBoundingRect.topLeft.y <= -500 {
             scene.birdDeath()
@@ -102,9 +113,17 @@ class Bird : RenderableEntity, KeyDownHandler {
             scene.reset = false
             isActive = true
         }
-        
+
+        //rotate bird depending on yVelocity
+        if !isDying {
+            rotationRadians = yVelocity * Double.pi / 180.0
+        }
         //play death animation
         if isDying {
+            rotationRadians -= 15.0 * Double.pi / 180.0
+            if rotationRadians > 2.0 * Double.pi {
+                rotationRadians = 0.0
+            }
             scene.playable = false
             scene.isDying = true
             if yPos < scene.groundLevel + 500 {
@@ -149,7 +168,7 @@ class Bird : RenderableEntity, KeyDownHandler {
         } else {
             time = 0
         }
-
+        
         //update debug (/n means to move on to next section of data)
         scene.debugInformation.append("Bird Data: position: (\(xPos),\(yPos)), velocity: (\(xVelocity),\(yVelocity)), States: isActive:\(isActive) isDying:\(isDying), Attributes: fatness:\(fatness) flapPower:(\(flapPower))")
     }
@@ -159,12 +178,7 @@ class Bird : RenderableEntity, KeyDownHandler {
     }
     
     override func setup(canvasSize: Size, canvas: Canvas) {
-        //set graphics
-        guard let mainScene = scene as? MainScene else {
-            fatalError("mainscene needed to initiate sprite library")
-        }
-                
-        //ObEsItY FaCtoR
+         //ObEsItY FaCtoR
         birdBoundingRect.size.width = Int(Double(birdBoundingRect.size.width) * fatness)
         birdBoundingRect.size.height = Int(Double(birdBoundingRect.size.height) * fatness)
 
@@ -174,7 +188,6 @@ class Bird : RenderableEntity, KeyDownHandler {
         xPos = 550
         returnPosY = yPos
         returnPosX = xPos
-        dispatcher.registerKeyDownHandler(handler:self)
     }
 
     override func render(canvas: Canvas) {
@@ -203,12 +216,15 @@ class Bird : RenderableEntity, KeyDownHandler {
             } else {
                 spriteLibrary.renderMode = .sourceAndDestination(sourceRect:idleSprite, destinationRect: birdBoundingRect)
             }
+
+            // Apply rotation transform
+            let targetCenter = birdBoundingRect.center
+            let preTranslate = Transform(translate:DoublePoint(targetCenter))
+            let rotationTransform = Transform(rotateRadians:rotationRadians)
+            let postTranslate = Transform(translate:DoublePoint(-targetCenter))
+            setTransforms(transforms:[preTranslate, rotationTransform, postTranslate])
+
             canvas.render(spriteLibrary)
         }
-        
-    }
-        
-    override func teardown() {
-        dispatcher.unregisterKeyDownHandler(handler:self)
     }
 }

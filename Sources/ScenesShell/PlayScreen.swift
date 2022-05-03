@@ -2,7 +2,7 @@ import Igis
 import Scenes
 import Foundation
 
-class PlayScreen : RenderableEntity, EntityMouseClickHandler {
+class PlayScreen : RenderableEntity {
     //Event States
     var isActive = true
         
@@ -24,11 +24,10 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
     //attributes
     var timeStep : Int = 5
     var time : Int = 0
-    
-    //events
-    func onEntityMouseClick(globalLocation:Point) {
+
+    func mouseClickEvent(globalLocation: Point) {
         guard let scene = scene as? MainScene else {
-            fatalError("main scene is needed for PlayScreen")
+            fatalError("MainScene required for mouseClickEvent in PlayScreen")
         }
         
         if scene.playable && scene.spriteLibraryReady {
@@ -36,9 +35,23 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
             isActive = false
             scene.playing = true
         }
-        
     }
 
+     func keyDownEvent(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
+        guard let scene = scene as? MainScene else {
+            fatalError("MainScene required for mouseClickEvent in PlayScreen")
+        }
+        
+         if key == "w" {
+             if scene.playable && scene.spriteLibraryReady {
+                 scene.reset = false
+                 isActive = false
+                 scene.playing = true
+             }    
+         }
+    }
+   
+    
     func birdDeath() {
         isActive = true
     }
@@ -49,26 +62,17 @@ class PlayScreen : RenderableEntity, EntityMouseClickHandler {
     init() {
         super.init(name:"PlayScreen")
     }
-    //define boundingrect for click
-    override func boundingRect() -> Rect {
-        return Rect(size: Size(width: Int.max, height: Int.max))
-    }
     
     override func setup(canvasSize:Size, canvas:Canvas) {
         text.location = canvasSize.center
         text.font = "20pt M"
-        dispatcher.registerEntityMouseClickHandler(handler:self)
-
+        
         //center icons
         jumpRect.topLeft.x = canvasSize.center.x - jumpRect.size.width - 5
         jumpRect.topLeft.y = canvasSize.center.y - jumpRect.size.height
 
         playRect.topLeft.x = canvasSize.center.x + 5
         playRect.topLeft.y = canvasSize.center.y - playRect.size.height 
-    }
-
-    override func teardown() {
-        dispatcher.unregisterEntityMouseClickHandler(handler:self)
     }
 
     override func render(canvas: Canvas) {

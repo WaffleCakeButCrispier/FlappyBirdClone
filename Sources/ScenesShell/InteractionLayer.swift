@@ -2,17 +2,21 @@ import Scenes
 import Igis
 import Foundation
 
-  /*
-     This class is responsible for the interaction Layer.
-     Internally, it maintains the RenderableEntities for this layer.
-   */
-
-
 class InteractionLayer : Layer {
 
     let bird = Bird()
     let obstacleDespawn = ObstacleDespawn() 
+
+    //event functions
+    func mouseClickEvent(globalLocation: Point) {
+        bird.mouseClickEvent(globalLocation: globalLocation)
+    }
+
+    func keyDownEvent(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
+        bird.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
+    }
     
+    //functions
     //return position of rect
     func returnDespawnRect() -> Rect {
         let rect : Rect = obstacleDespawn.returnRect()

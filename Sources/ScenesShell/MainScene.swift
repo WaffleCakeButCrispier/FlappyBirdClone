@@ -16,6 +16,7 @@ class MainScene : Scene {
     let interactionLayer = InteractionLayer()
     let foregroundLayer = ForegroundLayer()
     let spriteLayer = SpriteLayer()
+    let eventHandlerLayer = EventHandlerLayer()
     
     public var groundLevel = 800 //ground layer y 
     public var speed : Double = -10.0 //initial speed
@@ -27,7 +28,20 @@ class MainScene : Scene {
     
     //get debug information
     public var debugInformation : [String] = []
-    
+
+    //event functions
+    func mouseClickEvent(globalLocation: Point) {
+        foregroundLayer.mouseClickEvent(globalLocation: globalLocation)
+        interactionLayer.mouseClickEvent(globalLocation: globalLocation)
+    }
+
+    func keyDownEvent(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
+        interactionLayer.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
+        foregroundLayer.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
+        spriteLayer.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
+    }
+      
+    //functions
     //get sprites
     func returnSpriteLibrary() -> Image? {
         spriteLayer.returnSpriteLibrary()
@@ -71,6 +85,7 @@ class MainScene : Scene {
         insert(layer:foregroundLayer, at:.front)
         insert(layer:refreshLayer, at:.back)
         insert(layer:spriteLayer, at:.back)
+        insert(layer:eventHandlerLayer, at:.front)
     }
 
     override func preCalculate(canvas:Canvas) {

@@ -37,6 +37,8 @@ class Obstacle : RenderableEntity {
     var startVelocity : Double = 0.0
     var difficulty : Double = 1.0
 
+    var oscillating = false //is obstacle moving up and down?
+    
     var scored = false //have you scored?
     
     //return rect :eyes:
@@ -95,8 +97,7 @@ class Obstacle : RenderableEntity {
         obstacleBoundingRectBottom.topLeft = point
         
     }
-
-        
+    
     //offsets by specified dimensions 
     func offset(x: Int, y:Int) { 
         xPos += x
@@ -200,7 +201,9 @@ class Obstacle : RenderableEntity {
 
          //update debug (/n means to move on to next section of data)
          scene.debugInformation.append("Obstacle \(number) Data: Position: topRect:(\(obstacleBoundingRectTop.topLeft.x),\(obstacleBoundingRectTop.topLeft.y)) - bottomRect:(\(obstacleBoundingRectBottom.topLeft.x),\(obstacleBoundingRectBottom.topLeft.y)) - pointRect:(\(pointBoundingRect.topLeft.x),\(pointBoundingRect.topLeft.y)), Velocity: (\(xVelocity),\(yVelocity)), Attributes: isActive:\(isActive) resetable:\(resetable) scored:\(scored)")
-         moveUpAndDown()
+         if oscillating {
+             moveUpAndDown()
+         }
     }
     
     init() {
