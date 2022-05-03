@@ -50,42 +50,30 @@ class Obstacle : RenderableEntity {
     
     
     var amountMoved = 0
-    var movementAmount = Int.random(in: -1000 ..< 1000)
-    var movementCheck = 0
     
+    var movementAmount = Int.random(in: 50 ... 200)
+    var positiveOrNegativeInt = Int.random(in: 1 ... 2)
+    var movingTo = 0
+    var offsetValue = 3
     func moveUpAndDown() {
-        print(movementAmount)
-        //test to see if in range
-        while abs(movementAmount) - 20 < 0 {
-            movementAmount = Int.random(in: -1000 ..< 1000)
-            print("not in range")
-        }
         
-        if movementAmount < 0 {
-            if abs(movementAmount) > obstacleBoundingRectTop.height{
-                movementCheck = 0
-            } else {
-                movementCheck = -5
-            }
+        if positiveOrNegativeInt == 1 {
+            movingTo = movementAmount
+        } else if positiveOrNegativeInt == 2 {
+            movingTo = -movementAmount
         }
 
-        else if movementAmount > 0 {
-            if abs(movementAmount) > obstacleBoundingRectBottom.height {
-                movementCheck = 0
-            } else {
-                movementCheck = 5
-            }
-        }
 
-        obstacleBoundingRectTop.topLeft.y += movementCheck
-        obstacleBoundingRectBottom.topLeft.y += movementCheck
-        pointBoundingRect.topLeft.y += movementCheck
-        amountMoved += 5
-
-        if amountMoved > abs(movementAmount) {
+        offset(x:0,y:offsetValue)
+        amountMoved += 3
+        if amountMoved >= abs(movingTo) {
             amountMoved = -amountMoved
-            movementCheck = -movementCheck
+            offsetValue = -offsetValue
         }
+        print("Moving by \(movingTo)")
+        print(amountMoved)
+        print("ran")
+        
     }
             
             
@@ -93,10 +81,8 @@ class Obstacle : RenderableEntity {
     //move to specified point
     func move(to point: Point) {
         obstacleBoundingRectBottom.topLeft = point
-        
     }
 
-        
     //offsets by specified dimensions 
     func offset(x: Int, y:Int) { 
         xPos += x
@@ -200,6 +186,7 @@ class Obstacle : RenderableEntity {
 
          //update debug (/n means to move on to next section of data)
          scene.debugInformation.append("Obstacle \(number) Data: Position: topRect:(\(obstacleBoundingRectTop.topLeft.x),\(obstacleBoundingRectTop.topLeft.y)) - bottomRect:(\(obstacleBoundingRectBottom.topLeft.x),\(obstacleBoundingRectBottom.topLeft.y)) - pointRect:(\(pointBoundingRect.topLeft.x),\(pointBoundingRect.topLeft.y)), Velocity: (\(xVelocity),\(yVelocity)), Attributes: isActive:\(isActive) resetable:\(resetable) scored:\(scored)")
+         //move the pipes up and down
          moveUpAndDown()
     }
     
@@ -232,11 +219,11 @@ class Obstacle : RenderableEntity {
             fatalError("MainScene needed for sprites for Obstacle")
         }
         
-        //render bounding rects
-        // let obstacleRectangleBottom = Rectangle(rect: obstacleBoundingRectBottom, fillMode: .stroke)
-        // let obstacleRectangleTop = Rectangle(rect: obstacleBoundingRectTop, fillMode: .stroke)
-        // let pointRectangle = Rectangle(rect: pointBoundingRect, fillMode: .stroke)
-        // canvas.render(pointRectangle, obstacleRectangleBottom, obstacleRectangleTop)
+        // render bounding rects
+        let obstacleRectangleBottom = Rectangle(rect: obstacleBoundingRectBottom, fillMode: .stroke)
+        let obstacleRectangleTop = Rectangle(rect: obstacleBoundingRectTop, fillMode: .stroke)
+        let pointRectangle = Rectangle(rect: pointBoundingRect, fillMode: .stroke)
+        //canvas.render(pointRectangle, obstacleRectangleBottom, obstacleRectangleTop)
 
         //sprite render
         if scene.spriteLibraryReady {
