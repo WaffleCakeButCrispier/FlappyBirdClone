@@ -48,7 +48,7 @@ class Obstacle : RenderableEntity {
     }
 
     //move up and down
-    var hardMode = false
+    
     var amountMoved = 0
     
     var movementAmount = Int.random(in: 50 ... 200)
@@ -182,6 +182,11 @@ class Obstacle : RenderableEntity {
 
          //update debug (/n means to move on to next section of data)
          scene.debugInformation.append("Obstacle \(number) Data: Position: topRect:(\(obstacleBoundingRectTop.topLeft.x),\(obstacleBoundingRectTop.topLeft.y)) - bottomRect:(\(obstacleBoundingRectBottom.topLeft.x),\(obstacleBoundingRectBottom.topLeft.y)) - pointRect:(\(pointBoundingRect.topLeft.x),\(pointBoundingRect.topLeft.y)), Velocity: (\(xVelocity),\(yVelocity)), Attributes: isActive:\(isActive) resetable:\(resetable) scored:\(scored)")
+         if scene.hardMode {
+             oscillating = true
+         } else {
+             oscillating = false
+         }
          if oscillating {
              moveUpAndDown()
          }

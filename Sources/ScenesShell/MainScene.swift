@@ -5,7 +5,6 @@ import Foundation
 class MainScene : Scene {
 
     //sprite status
-    
     public var spriteLibraryReady = false
     
     //IMPORTANT LAYER
@@ -25,7 +24,8 @@ class MainScene : Scene {
     public var playable = true //is player playable (is bird uncontrollable)?
     public var playing = false //is player playing?
     public var isDying = false
-    
+
+    public var hardMode = false
     //get debug information
     public var debugInformation : [String] = []
 
@@ -39,6 +39,9 @@ class MainScene : Scene {
         interactionLayer.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
         foregroundLayer.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
         spriteLayer.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
+        if key == "s" {
+            hardMode = !hardMode
+        }
     }
       
     //functions
