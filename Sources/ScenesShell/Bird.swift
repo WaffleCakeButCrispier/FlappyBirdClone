@@ -27,7 +27,7 @@ class Bird : RenderableEntity {
     var yVelocity : Double = 0
     var xVelocity : Double = 0
     
-    var xLocked = true
+    var xLocked = false
     
     //attributes
     var orientation : Double = 0
@@ -83,9 +83,13 @@ class Bird : RenderableEntity {
             if !xLocked {
                 switch key {
                 case "ArrowLeft":
-                    xPos -= 25
+                    if abs(xVelocity) < flapPower {
+                        xVelocity -= 3
+                    }
                 case "ArrowRight":
-                    xPos += 25
+                    if abs(xVelocity) < flapPower {
+                        xVelocity += 3
+                    }
                 default:
                     break
                 }
