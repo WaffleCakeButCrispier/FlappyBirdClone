@@ -68,10 +68,9 @@ class Obstacle : RenderableEntity {
             amountMoved = -amountMoved
             offsetValue = -offsetValue
         }
-        print("Moving by \(movingTo)")
-        print(amountMoved)
-        print("ran")
-        
+        // print("Moving by \(movingTo)")
+        // print(amountMoved)
+        // print("ran")
     }
      
     //move to specified point

@@ -13,8 +13,12 @@ class SpriteLibrary : RenderableEntity {
     let spriteLibraryURL = [
       "https://www.codermerlin.com/users/soohan-cho/images/SpriteSheet.FlappyBirdClone.ver.1.0.4_10.png",
       "https://www.codermerlin.com/users/soohan-cho/images/SpriteSheet.FlappyBirdClone.ver.1.0.3(robotConversion)(highRes).png",
-      "https://www.atlasandboots.com/wp-content/uploads/2019/05/ama-dablam2-most-beautiful-mountains-in-the-world.jpg"
-    
+      "https://www.atlasandboots.com/wp-content/uploads/2019/05/ama-dablam2-most-beautiful-mountains-in-the-world.jpg",
+      "https://www.codermerlin.com/users/soohan-cho/images/SpriteSheet.FlappyBirdClone.ver.1.0.5(hyperRealistic).png",
+      "http://images6.fanpop.com/image/photos/33100000/Random-ASCII-ascii-art-33172340-1405-984.png",
+      "https://designshack.net/wp-content/uploads/fractal-art.jpg",
+      "https://www.leafie.co.uk/wp-content/uploads/2021/11/fractal.jpeg",
+      "https://staticg.sportskeeda.com/editor/2022/04/ab2a0-16492353149125-1920.jpg"
     ]
     
     func returnSpriteLibrary() -> Image? {
