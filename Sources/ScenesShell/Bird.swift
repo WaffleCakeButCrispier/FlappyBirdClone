@@ -22,20 +22,20 @@ class Bird : RenderableEntity {
 
     var returnPosX = 0
     var returnPosY = 0
-    
+
+    //orientation
+    var orientation : Double = 0
+    var rotationRadians = 0.0
+
     //Velocity
     var yVelocity : Double = 0
     var xVelocity : Double = 0
     
-    var xLocked = false
+    var xLocked = true
     
     //attributes
-    var orientation : Double = 0
-
     let fatness = 1.0        //heheheheh
     var flapPower = 14.25     //replaces yVelocity
-
-    var rotationRadians = 0.0
     
     //time
     let frameRate = 30                //frames per second 
@@ -45,7 +45,7 @@ class Bird : RenderableEntity {
     
     //environment
     let gravity : Double = 30 
-    let wind : Double = 0.0
+    let wind : Double = 0
     
     func returnRect() -> Rect {
         let rect = birdBoundingRect
@@ -117,11 +117,12 @@ class Bird : RenderableEntity {
             scene.reset = false
             isActive = true
         }
-
+        
         //rotate bird depending on yVelocity
         if !isDying {
             rotationRadians = yVelocity * Double.pi / 180.0
         }
+        
         //play death animation
         if isDying {
             rotationRadians -= 15.0 * Double.pi / 180.0

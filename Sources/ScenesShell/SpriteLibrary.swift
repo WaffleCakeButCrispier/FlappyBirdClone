@@ -18,7 +18,8 @@ class SpriteLibrary : RenderableEntity {
       "http://images6.fanpop.com/image/photos/33100000/Random-ASCII-ascii-art-33172340-1405-984.png",
       "https://designshack.net/wp-content/uploads/fractal-art.jpg",
       "https://www.leafie.co.uk/wp-content/uploads/2021/11/fractal.jpeg",
-      "https://staticg.sportskeeda.com/editor/2022/04/ab2a0-16492353149125-1920.jpg"
+      "https://staticg.sportskeeda.com/editor/2022/04/ab2a0-16492353149125-1920.jpg",
+      "https://codermerlin.com/users/soohan-cho/images/Untitled%20presentation.png"
     ]
     
     func returnSpriteLibrary() -> Image? {
@@ -30,6 +31,15 @@ class SpriteLibrary : RenderableEntity {
         }
     }
 
+    func changeID(id: Int) {
+        spriteLibraryID = id
+        idChanged = true
+    }
+    
+    init() {
+        super.init(name:"SpriteLibrary")
+    }
+    
     func keyDownEvent(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
         guard let scene = scene as? MainScene else {
             fatalError("MainScene required for spriteLibrary keyDownEvent")
@@ -55,17 +65,7 @@ class SpriteLibrary : RenderableEntity {
             break
         }
     }
-
-
-    func changeID(id: Int) {
-        spriteLibraryID = id
-        idChanged = true
-    }
     
-    init() {
-        super.init(name:"SpriteLibrary")
-    }
-
     override func setup(canvasSize: Size, canvas: Canvas) {
         for element in spriteLibraryURL {
             let spriteURL = URL(string:"\(element)")
@@ -95,7 +95,7 @@ class SpriteLibrary : RenderableEntity {
                 }
                 spriteLibrary = Image(sourceURL: spriteLibraryDefault)
                 canvas.setup(spriteLibrary)
-                default:
+            default:
                 guard let newSpriteURL = URL(string:"\(spriteLibraryURL[spriteLibraryID])") else {
                     fatalError("failed to load sprite library url")
                 }
@@ -105,7 +105,6 @@ class SpriteLibrary : RenderableEntity {
             print("spriteLibrary id was changed")
             idChanged = false
         }
-        
         if spriteLibrary.isReady {
             scene.spriteLibraryReady = true
         }
