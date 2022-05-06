@@ -220,12 +220,6 @@ class Obstacle : RenderableEntity {
             fatalError("MainScene needed for sprites for Obstacle")
         }
         
-        // render bounding rects
-        let obstacleRectangleBottom = Rectangle(rect: obstacleBoundingRectBottom, fillMode: .stroke)
-        let obstacleRectangleTop = Rectangle(rect: obstacleBoundingRectTop, fillMode: .stroke)
-        let pointRectangle = Rectangle(rect: pointBoundingRect, fillMode: .stroke)
-        //canvas.render(pointRectangle, obstacleRectangleBottom, obstacleRectangleTop)
-
         //sprite render
         if scene.spriteLibraryReady {
             spriteLibrary = scene.returnSpriteLibrary()!
@@ -233,6 +227,14 @@ class Obstacle : RenderableEntity {
             canvas.render(spriteLibrary)
             spriteLibrary.renderMode = .sourceAndDestination(sourceRect:spriteTop, destinationRect: obstacleBoundingRectTop)
             canvas.render(spriteLibrary)
+        }
+
+        // render bounding rects
+        if scene.debugMode {
+            let obstacleRectangleBottom = Rectangle(rect: obstacleBoundingRectBottom, fillMode: .stroke)
+            let obstacleRectangleTop = Rectangle(rect: obstacleBoundingRectTop, fillMode: .stroke)
+            let pointRectangle = Rectangle(rect: pointBoundingRect, fillMode: .stroke)
+            canvas.render(pointRectangle, obstacleRectangleBottom, obstacleRectangleTop)
         }
     }
 }

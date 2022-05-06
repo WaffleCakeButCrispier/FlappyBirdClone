@@ -200,10 +200,6 @@ class Bird : RenderableEntity {
             fatalError("MainScene needed for Bird render")
         }
 
-        //bird bounding rect render
-        // let birdRectangle = Rectangle(rect: birdBoundingRect, fillMode: .stroke)
-        // canvas.render(birdRectangle)
-
         //sprite render
         if scene.spriteLibraryReady {
             spriteLibrary = scene.returnSpriteLibrary()!
@@ -228,8 +224,14 @@ class Bird : RenderableEntity {
             let rotationTransform = Transform(rotateRadians:rotationRadians)
             let postTranslate = Transform(translate:DoublePoint(-targetCenter))
             setTransforms(transforms:[preTranslate, rotationTransform, postTranslate])
-
             canvas.render(spriteLibrary)
+
+            //boundingRect render
+            if scene.debugMode {
+                let birdRectangle = Rectangle(rect: birdBoundingRect, fillMode: .stroke)
+                canvas.render(birdRectangle)
+            }
+            
         }
     }
 }
