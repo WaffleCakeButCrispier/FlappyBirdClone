@@ -26,8 +26,9 @@ class MainScene : Scene {
     public var playable = true //is player playable (is bird uncontrollable)?
     public var playing = false //is player playing?
     public var isDying = false
-
+    
     public var hardMode = false
+    public var windMode = false
     //get debug information
     public var debugInformation : [String] = []
 
@@ -43,6 +44,9 @@ class MainScene : Scene {
         spriteLayer.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
         if key == "s" {
             hardMode = !hardMode
+        }
+        if key == "r" {
+            windMode = !windMode
         }
         if key == "]" {
             debugMode = !debugMode

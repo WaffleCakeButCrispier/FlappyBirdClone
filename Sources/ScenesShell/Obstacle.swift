@@ -105,7 +105,6 @@ class Obstacle : RenderableEntity {
         guard let scene = scene as? MainScene else {
             fatalError("Main scene required for Obstacle")
         }
-        
         //test to see if scene is resetting
         if scene.reset && resetable {
             scored = false

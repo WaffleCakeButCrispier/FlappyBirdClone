@@ -45,7 +45,7 @@ class Bird : RenderableEntity {
     
     //environment
     let gravity : Double = 30 
-    let wind : Double = 0
+    var wind : Double = 0
     
     func returnRect() -> Rect {
         let rect = birdBoundingRect
@@ -104,6 +104,14 @@ class Bird : RenderableEntity {
     override func calculate(canvasSize: Size) {
         guard let scene = scene as? MainScene else {
             fatalError("mainScene required for birdy boi")
+        }
+        //difficulty
+        if scene.windMode {
+            wind = -10.0
+            xLocked = false
+        } else {
+            wind = 0.0
+            xLocked = true
         }
 
         //test to see if player is too high
