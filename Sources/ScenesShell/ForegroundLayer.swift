@@ -20,10 +20,12 @@ class ForegroundLayer : Layer {
     //event functions
     func mouseClickEvent(globalLocation: Point) {
         playScreen.mouseClickEvent(globalLocation: globalLocation)
+        debug.mouseClickEvent(globalLocation: globalLocation)
     }
 
     func keyDownEvent(key:String, code:String, ctrlKey:Bool, shiftKey:Bool, altKey:Bool, metaKey:Bool) {
         playScreen.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
+        debug.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
     }
     
     //functions

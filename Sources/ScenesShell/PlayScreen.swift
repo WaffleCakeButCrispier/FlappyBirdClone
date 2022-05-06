@@ -13,12 +13,12 @@ class PlayScreen : RenderableEntity {
     var spriteLibrary : Image = Image(sourceURL: URL(string:"Placeholder")!)
 
     var jumpRect : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:150,height:105)) 
-    var jumpSprite  : Rect = Rect(topLeft:Point(x:586,y:754), size:Size(width:97,height:67)) 
-    var jumpBlinkSprite  : Rect = Rect(topLeft:Point(x:715,y:754), size:Size(width:97,height:67)) 
+    var jumpSprite : Rect = Rect(topLeft:Point(x:586,y:754), size:Size(width:97,height:67)) 
+    var jumpBlinkSprite : Rect = Rect(topLeft:Point(x:715,y:754), size:Size(width:97,height:67)) 
 
     var playRect : Rect = Rect(topLeft:Point(x:0,y:0), size:Size(width:150,height:105)) 
-    var playSprite  : Rect = Rect(topLeft:Point(x:586,y:823), size:Size(width:97,height:67)) 
-    var playBlinkSprite  : Rect = Rect(topLeft:Point(x:715,y:823), size:Size(width:97,height:67)) 
+    var playSprite : Rect = Rect(topLeft:Point(x:586,y:823), size:Size(width:97,height:67)) 
+    var playBlinkSprite : Rect = Rect(topLeft:Point(x:715,y:823), size:Size(width:97,height:67)) 
 
     var spriteState = 0
     //attributes

@@ -16,6 +16,8 @@ class MainScene : Scene {
     let foregroundLayer = ForegroundLayer()
     let spriteLayer = SpriteLayer()
     let eventHandlerLayer = EventHandlerLayer()
+
+    public var debugMode = false
     
     public var groundLevel = 800 //ground layer y 
     public var speed : Double = -10.0 //initial speed
@@ -41,6 +43,9 @@ class MainScene : Scene {
         spriteLayer.keyDownEvent(key:key, code:code, ctrlKey:ctrlKey, shiftKey:ctrlKey, altKey:altKey, metaKey:metaKey)
         if key == "s" {
             hardMode = !hardMode
+        }
+        if key == "]" {
+            debugMode = !debugMode
         }
     }
       
